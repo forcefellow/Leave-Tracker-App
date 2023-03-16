@@ -1,0 +1,48 @@
+<template>
+    <lightning-card>
+        <lightning-datatable key-field="Id" data={leavesReqeusts} columns={columns}
+            onrowaction={rowActionHandler}></lightning-datatable>
+
+        <template lwc:if={noRecordsFound}>
+            <div class="slds-align_absolute-center slds-p-around_small slds-text-heading_medium">No Records Found</div>
+        </template>
+    </lightning-card>
+
+    <template lwc:if={showModalPopup}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01"
+            class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <button onclick={popupCloseHandler}
+                    class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                    <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                        size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__header">
+                    <h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Leave Request</h1>
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-record-edit-form object-api-name={objectApiName} record-id={recordId}
+                        onsuccess={successHandler} lwc:ref="leaveReqeustFrom">
+                        <lightning-output-field field-name="User__c"> </lightning-output-field>
+                        <lightning-output-field field-name="From_Date__c"> </lightning-output-field>
+                        <lightning-output-field field-name="To_Date__c"> </lightning-output-field>
+                        <lightning-output-field field-name="Reason__c"> </lightning-output-field>
+                        <lightning-input-field field-name="Status__c"></lightning-input-field>
+                        <lightning-input-field field-name="Manager_Comment__c"></lightning-input-field>
+
+                        <div class="slds-var-m-top_medium">
+                            <lightning-button variant="brand" type="submit" label="Save">
+                            </lightning-button>
+
+                            <lightning-button label="Cancel" class="slds-m-left_small" onclick={popupCloseHandler}>
+                            </lightning-button>
+                        </div>
+                    </lightning-record-edit-form>
+                </div>
+
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>
